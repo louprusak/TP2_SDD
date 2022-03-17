@@ -1,4 +1,4 @@
-#include "fichier.h"
+#include "file.h"
 
 
 File creerFileVide(void){
@@ -11,7 +11,7 @@ Booleen estFileVide(File ptq){
 }
 
 void enfilerEnTete(File *ptq, int nombre){
-	maillon_t *tmp = (maillon_t*)malloc(sizeof(maillon_t));
+	maillon_file *tmp = (maillon_file*)malloc(sizeof(maillon_file));
 	if(tmp==NULL){
 		printf("Erreur allocation mémoire\n");
 		exit(1);
@@ -31,7 +31,7 @@ void enfilerEnTete(File *ptq, int nombre){
 }
 
 void enfilerEnQueue(File *ptq, int nombre){
-    maillon_t *tmp = (maillon_t*)malloc(sizeof(maillon_t));
+    maillon_file *tmp = (maillon_file*)malloc(sizeof(maillon_file));
 	if(tmp==NULL){
 		printf("Erreur allocation mémoire\n");
 		exit(1);
@@ -54,7 +54,7 @@ void enfilerEnQueue(File *ptq, int nombre){
 
 Booleen defilerEnTete(File *ptq, int *nombre){
 	if(estFileVide(*ptq))return FALSE;
-	maillon_t *tmp;
+	maillon_file *tmp;
 	tmp = (*ptq)->suiv;
 	*nombre = tmp->nombre;
 	if(((*ptq)->suiv) == *ptq && ((*ptq)->prec) == *ptq){
@@ -69,7 +69,7 @@ Booleen defilerEnTete(File *ptq, int *nombre){
 
 Booleen defilerEnQueue(File *ptq, int *nombre){
 	if(estFileVide(*ptq))return FALSE;
-	maillon_t *tmp;
+	maillon_file *tmp;
 	tmp = *ptq;
 	*nombre = tmp->nombre;
 	if(((*ptq)->suiv) == *ptq && ((*ptq)->prec) == *ptq){
@@ -100,7 +100,7 @@ void afficherFileTvQ(File ptq){
 		printf("File vide !\n");
 		return;
 	}
-	maillon_t *tmp = ptq->suiv;
+	maillon_file *tmp = ptq->suiv;
     printf("%d ",tmp->nombre);
 	tmp = tmp->suiv;
 	while(tmp != ptq->suiv){
@@ -114,7 +114,7 @@ void afficherFileQvT(File ptq){
 		printf("File vide !\n");
 		return;
 	}
-	maillon_t *tmp = ptq;
+	maillon_file *tmp = ptq;
 	printf("%d ",tmp->nombre);
 	tmp = tmp->suiv;
 	while(tmp != ptq){

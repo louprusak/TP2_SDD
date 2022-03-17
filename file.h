@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct maillon{
+typedef struct maillonfile{
 	int nombre;
-	struct maillon* prec;
-	struct maillon* suiv;
-}maillon_t;
+	struct maillonfile* prec;
+	struct maillonfile* suiv;
+}maillon_file;
 
-typedef maillon_t* File;
+typedef maillon_file* File;
 
 typedef enum {FALSE, TRUE} Booleen;
 

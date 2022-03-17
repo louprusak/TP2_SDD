@@ -1,4 +1,5 @@
-#include "fichier.h"
+//#include "file.h"
+#include "pile.h"
 
 void testFile(void){
   File f = creerFileVide();
@@ -82,7 +83,53 @@ void testFile(void){
   }
 }
 
+void testPile(void){
+  Pile p = creerPileVide();
+  int c, c1 = 1;
+  int c2 = 2;
+  Booleen ok;
+  
+  if(!estPileVide(p)) printf("PB : la pile devrait etre vide !!!");
+
+  empiler(&p,c1);  
+  empiler(&p,c2);
+
+  printf("contenu de la pile : ");
+  afficherPile(p); 
+  printf("\n");
+
+  ok = sommetPile(p,&c);
+  printf("sommet : "); 
+  printf("%d\n",c); 
+  printf("\n");
+
+  ok = depiler(&p,&c);
+  if(!ok) printf("PB : on n'a pas pu dépiler\n");
+  else{
+    printf("Nombre dépilé : ");
+    printf("%d",c);
+    printf("\n");
+  }
+  
+  ok = depiler(&p,&c);
+  if(!ok) printf("PB : on n'a pas pu dépiler\n");
+  else{
+    printf("Nombre dépilé : "); 
+    printf("%d",c) ;
+    printf("\n");
+  }
+  
+  ok = depiler(&p,&c);
+  if(!ok) printf("on n'a pas dépilé\n");
+  else{
+    printf("PB : on aurait pas du dépiler : "); 
+    printf("%d",c); 
+    printf("\n");
+  }
+}
+
 int main(void){
     testFile();
+    testPile();
     return 0;
 }
