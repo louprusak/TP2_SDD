@@ -6,81 +6,98 @@ File creerFileVide(void){
 }
 
 Booleen estFileVide(File ptq){
-	if(ptq==NULL)return TRUE;
-	else return FALSE;
+	Booleen code = FALSE;
+	if(ptq==NULL){
+		code = TRUE;
+	}
+	return code;
 }
 
-void enfilerEnTete(File *ptq, int nombre){
+Booleen enfilerEnTete(File *ptq, int nombre){
+	Booleen code = TRUE;
 	maillon_file *tmp = (maillon_file*)malloc(sizeof(maillon_file));
 	if(tmp==NULL){
-		printf("Erreur allocation mémoire\n");
-		exit(1);
+		code = FALSE;
 	}
-	tmp->nombre = nombre;
-	if(*ptq == NULL){
-		*ptq = tmp;
-		tmp->suiv = tmp;
-		tmp->prec = tmp;
+	else {
+		tmp->nombre = nombre;
+		if(*ptq == NULL){
+			*ptq = tmp;
+			tmp->suiv = tmp;
+			tmp->prec = tmp;
+		}
+		else{
+			tmp->prec = *ptq;
+			tmp->suiv = (*ptq)->suiv;
+			(tmp->suiv)->prec = tmp;
+			(*ptq)->suiv = tmp;
+		}	
 	}
-	else{
-		tmp->prec = *ptq;
-		tmp->suiv = (*ptq)->suiv;
-		(tmp->suiv)->prec = tmp;
-		(*ptq)->suiv = tmp;
-	}	
+	return code;
 }
 
-void enfilerEnQueue(File *ptq, int nombre){
-    maillon_file *tmp = (maillon_file*)malloc(sizeof(maillon_file));
+Booleen enfilerEnQueue(File *ptq, int nombre){
+    Booleen code = TRUE;
+	maillon_file *tmp = (maillon_file*)malloc(sizeof(maillon_file));
 	if(tmp==NULL){
-		printf("Erreur allocation mémoire\n");
-		exit(1);
+		code = FALSE;
 	}
-	tmp->nombre = nombre;
-	if(*ptq == NULL){
-		*ptq = tmp;
-		tmp->suiv = tmp;
-		tmp->prec = tmp;
+	else {
+		tmp->nombre = nombre;
+		if(*ptq == NULL){
+			*ptq = tmp;
+			tmp->suiv = tmp;
+			tmp->prec = tmp;
+		}
+		else{
+			tmp->suiv=(*ptq)->suiv;
+			(tmp->suiv)->prec = tmp;
+			tmp->prec = *ptq;
+			(*ptq)->suiv = tmp;
+			*ptq = tmp;
+		}
 	}
-	else{
-		tmp->suiv=(*ptq)->suiv;
-		(tmp->suiv)->prec = tmp;
-		tmp->prec = *ptq;
-		(*ptq)->suiv = tmp;
-		*ptq = tmp;
-	}
+	return code;
 }
 
 
 Booleen defilerEnTete(File *ptq, int *nombre){
-	if(estFileVide(*ptq))return FALSE;
-	maillon_file *tmp;
-	tmp = (*ptq)->suiv;
-	*nombre = tmp->nombre;
-	if(((*ptq)->suiv) == *ptq && ((*ptq)->prec) == *ptq){
-		*ptq = NULL;
-		return TRUE;
+	Booleen code = TRUE;
+	if(estFileVide(*ptq))code = FALSE;
+	else {
+		maillon_file *tmp;
+		tmp = (*ptq)->suiv;
+		*nombre = tmp->nombre;
+		if(((*ptq)->suiv) == *ptq && ((*ptq)->prec) == *ptq){
+			*ptq = NULL;
+		}
+		else {
+			(*ptq)->suiv = tmp->suiv;
+			((*ptq)->suiv)->prec = *ptq;
+			free(tmp);
+		}
+		return code;
 	}
-	(*ptq)->suiv = tmp->suiv;
-	((*ptq)->suiv)->prec = *ptq;
-	free(tmp);
-	return TRUE;
 }
 
 Booleen defilerEnQueue(File *ptq, int *nombre){
-	if(estFileVide(*ptq))return FALSE;
-	maillon_file *tmp;
-	tmp = *ptq;
-	*nombre = tmp->nombre;
-	if(((*ptq)->suiv) == *ptq && ((*ptq)->prec) == *ptq){
-		*ptq = NULL;
-		return TRUE;
+	Booleen code = TRUE;
+	if(estFileVide(*ptq))code = FALSE;
+	else {
+		maillon_file *tmp;
+		tmp = *ptq;
+		*nombre = tmp->nombre;
+		if(((*ptq)->suiv) == *ptq && ((*ptq)->prec) == *ptq){
+			*ptq = NULL;
+		}
+		else {
+			*ptq = tmp->prec;
+			(*ptq)->suiv = tmp->suiv;
+			((*ptq)->suiv)->prec = *ptq;
+			free(tmp);
+		}
 	}
-	*ptq = tmp->prec;
-	(*ptq)->suiv = tmp->suiv;
-	((*ptq)->suiv)->prec = *ptq;
-	free(tmp);
-	return TRUE;
+	return code;
 }
 
 Booleen teteFile(File ptq, int *nombre){
